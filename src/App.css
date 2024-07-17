@@ -4,7 +4,6 @@
     margin: 0;
     padding: 0;
     text-align: center;
-    background-color: white; /* Set background color to white */
 }
 
 html, body {
@@ -17,4 +16,5 @@ html, body {
     margin-top: 80px; /* Adjust this based on the height of your header */
     padding: 2rem;
     min-height: 100vh; /* Ensure the main content covers the full height of the screen */
+    height: 100%;
 }

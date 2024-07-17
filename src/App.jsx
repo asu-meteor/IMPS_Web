@@ -2,6 +2,8 @@ import Layout from './Components/Layout/Layout';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './Pages/Home';
+import MediaManager from './Pages/ContentManagement/MediaManager';
+import MediaSequencer from './Pages/ContentSequencing/MediaSequencer';
 import LoginPage from './Pages/Authenticator/LoginPage';
 import SignUpPage from './Pages/Authenticator/SignupPage';
 import PrivateRoute from './Components/PrivateRoute';
@@ -26,6 +28,24 @@ function App() {
                     element={
                         <PrivateRoute>
                             <Home />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/IMPS/Media-Manager"
+                    element={
+                        <PrivateRoute>
+                            <MediaManager />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/IMPS/Media-Sequencer"
+                    element={
+                        <PrivateRoute>
+                            <MediaSequencer />
                         </PrivateRoute>
                     }
                 />

@@ -28,16 +28,16 @@ function MainNavigation() {
             <nav>
                 <ul>
                     <li>
-                        <Link to='/IMPS/Manage-Content'>
-                            <Button variant="contained" size="medium" sx={{ color: 'black', backgroundColor: 'white', '&:hover': { color: 'white', backgroundColor: 'black', }, borderColor: 'info.main', width: '100' }}>
-                                Manage Content
+                        <Link to='/IMPS/Media-Manager'>
+                            <Button variant="contained" size="medium" sx={{ color: 'black', backgroundColor: 'white', '&:hover': { color: 'white', backgroundColor: 'black', }, borderColor: 'info.main' }}>
+                                Media Manager
                             </Button>
                         </Link>
                     </li>
                     <li>
-                        <Link to='/IMPS/Sequence-Content'>
+                        <Link to='/IMPS/Media-Sequencer'>
                             <Button variant="contained" size="medium" sx={{ color: 'black', backgroundColor: 'white', '&:hover': { color: 'white', backgroundColor: 'black', }, borderColor: 'info.main' }}>
-                                Sequence Content
+                                Media Sequencer
                             </Button>
                         </Link>
                     </li>
