@@ -8,12 +8,8 @@ import LoginPage from './Pages/Authenticator/LoginPage';
 import SignUpPage from './Pages/Authenticator/SignupPage';
 import PrivateRoute from './Components/PrivateRoute';
 import { Navigate } from 'react-router-dom';
+import ModelVisualizer from './Pages/ContentManagement/ModelVisualizer';
 
-
-//import LogIn from './Pages/LogIn';
-//import SignUp from './Pages/SignUp';
-//import Manage from './Pages/ManageContent';
-//import Sequence from './Pages/SequenceContent';
 
 function App() {
     return (
@@ -47,6 +43,13 @@ function App() {
                         <PrivateRoute>
                             <MediaSequencer />
                         </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/IMPS/Visualize-Model"
+                    element={
+                            <ModelVisualizer />
                     }
                 />
 

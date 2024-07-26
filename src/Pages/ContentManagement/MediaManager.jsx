@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Container, Typography, Box, ToggleButton, Grid } from '@mui/material';
 import UploadContent from './UploadContent';
-//import ModifyContent from './ModifyContent';
+import ModifyContent from './ModifyContent';
 
 const MediaManager = () => {
     const [view, setView] = useState('upload');
@@ -58,7 +58,7 @@ const MediaManager = () => {
                     </Grid>
                 </Grid>
                 {view === 'upload' && <UploadContent />}
-                {/*view === 'modify' && <ModifyContent />*/}
+                {view === 'modify' && <ModifyContent />}
             </Box>
         </Container>
     );
