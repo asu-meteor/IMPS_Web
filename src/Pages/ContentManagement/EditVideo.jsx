@@ -16,7 +16,6 @@ const EditVideo = ({ content, setEditContent, fetchContent }) => {
     });
     const [uploadProgress, setUploadProgress] = useState(0);
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const [isUploading, setIsUploading] = useState(false);
 
     useEffect(() => {
@@ -87,7 +86,7 @@ const EditVideo = ({ content, setEditContent, fetchContent }) => {
                                 videoFileName: formData.videoFile.name,
                                 updatedAt: serverTimestamp(),
                             });
-                            setSuccess('Video updated successfully!');
+                            alert('Video updated successfully!');
                             setError('');
                             setUploadProgress(0);
                             setIsUploading(false);
@@ -102,7 +101,7 @@ const EditVideo = ({ content, setEditContent, fetchContent }) => {
                     description: formData.description,
                     updatedAt: serverTimestamp(),
                 });
-                setSuccess('Video updated successfully!');
+                alert('Video updated successfully!');
                 setError('');
                 setIsUploading(false);
                 fetchContent();
@@ -124,7 +123,7 @@ const EditVideo = ({ content, setEditContent, fetchContent }) => {
 
             // Delete the Firestore document
             await deleteDoc(doc(db, `users/${currentUser.uid}/Videos`, content.uid));
-            setSuccess('Video deleted successfully!');
+            alert('Video deleted successfully!');
             fetchContent();
             setEditContent(null);
         } catch (error) {
@@ -140,7 +139,6 @@ const EditVideo = ({ content, setEditContent, fetchContent }) => {
                     Edit Video
                 </Typography>
                 {error && <Typography color="error">{error}</Typography>}
-                {success && <Typography color="success">{success}</Typography>}
                 <Box component="form" onSubmit={handleSave} sx={{ mt: 1 }}>
                     <TextField
                         label="Name"

@@ -18,7 +18,6 @@ const UploadVideo = () => {
     });
     const [uploadProgress, setUploadProgress] = useState(0);
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const [isUploading, setIsUploading] = useState(false);
 
     useEffect(() => {
@@ -90,7 +89,7 @@ const UploadVideo = () => {
                             createdAt: serverTimestamp(),
                             updatedAt: serverTimestamp(),
                         });
-                        setSuccess('Video uploaded successfully!');
+                        alert('Video uploaded successfully!');
                         setError('');
                         setFormData({
                             name: '',
@@ -116,7 +115,6 @@ const UploadVideo = () => {
                     Upload a New Video
                 </Typography>
                 {error && <Typography color="error">{error}</Typography>}
-                {success && <Typography color="success">{success}</Typography>}
                 <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                     <TextField
                         label="Name"

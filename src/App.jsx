@@ -8,7 +8,7 @@ import LoginPage from './Pages/Authenticator/LoginPage';
 import SignUpPage from './Pages/Authenticator/SignupPage';
 import PrivateRoute from './Components/PrivateRoute';
 import { Navigate } from 'react-router-dom';
-import ModelVisualizer from './Pages/ContentManagement/ModelVisualizer';
+import ModifySequence from './Pages/ContentSequencing/ModifySequence';
 
 
 function App() {
@@ -47,9 +47,18 @@ function App() {
                 />
 
                 <Route
+                    path="/IMPS/Media-Sequencer/:sequenceId"
+                    element={
+                        <PrivateRoute>
+                            <MediaSequencer />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
                     path="/IMPS/Visualize-Model"
                     element={
-                            <ModelVisualizer />
+                            <ModifySequence />
                     }
                 />
 

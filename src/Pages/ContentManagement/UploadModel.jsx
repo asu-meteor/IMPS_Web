@@ -25,7 +25,6 @@ const UploadModel = () => {
     });
     const [uploadProgress, setUploadProgress] = useState(0);
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const [isUploading, setIsUploading] = useState(false);
 
     useEffect(() => {
@@ -166,7 +165,7 @@ const UploadModel = () => {
                 updatedAt: serverTimestamp(),
             });
 
-            setSuccess('Model uploaded successfully!');
+            alert('Model uploaded successfully!');
             setError('');
             setFormData({
                 modelName: '',
@@ -194,7 +193,6 @@ const UploadModel = () => {
                     Upload New Model
                 </Typography>
                 {error && <Typography color="error">{error}</Typography>}
-                {success && <Typography color="success">{success}</Typography>}
                 <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={6}>

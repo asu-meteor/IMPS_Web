@@ -30,8 +30,7 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
     });
     const [uploadProgress, setUploadProgress] = useState(0);
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-    const [mediaDisplay, setMediaDisplay] = useState('');
+   const [mediaDisplay, setMediaDisplay] = useState('');
     const [isUploading, setIsUploading] = useState(false);
 
     useEffect(() => {
@@ -173,7 +172,7 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
 
             await updateDoc(doc(db, `users/${userUID}/Models`, modelUID), updates);
 
-            setSuccess('Model updated successfully!');
+            alert('Model updated successfully!');
             setError('');
             setUploadProgress(0);
             setIsUploading(false);
@@ -211,7 +210,7 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
 
             await deleteDoc(doc(db, `users/${userUID}/Models`, modelUID));
 
-            setSuccess('Model deleted successfully!');
+            alert('Model deleted successfully!');
             setEditContent(null);
             setMediaDisplay('');
             fetchContent();
@@ -270,7 +269,6 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
                     Edit Model
                 </Typography>
                 {error && <Typography color="error">{error}</Typography>}
-                {success && <Typography color="success">{success}</Typography>}
                 <Box component="form" onSubmit={handleSave} sx={{ mt: 1 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={6}>

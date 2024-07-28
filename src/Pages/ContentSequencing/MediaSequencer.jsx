@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Container, Typography, Box, ToggleButton, Grid } from '@mui/material';
 import CreateSequence from './CreateSequence';
-import ModifySequence from './ModifySequence';
+import ModifySequences from './ModifySequences';
 
 const MediaSequencer = () => {
     const [view, setView] = useState('create');
@@ -58,7 +58,7 @@ const MediaSequencer = () => {
                     </Grid>
                 </Grid>
                 {view === 'create' && <CreateSequence />}
-                {view === 'modify' && <ModifySequence />}
+                {view === 'modify' && <ModifySequences />}
             </Box>
         </Container>
     );

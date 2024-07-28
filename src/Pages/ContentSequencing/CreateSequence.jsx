@@ -16,6 +16,7 @@ const CreateSequence = () => {
     const [videos, setVideos] = useState([]);
     const [sequence, setSequence] = useState([]);
     const [sequenceName, setSequenceName] = useState('');
+    const [sequenceDescription, setSequenceDescription] = useState('');
 
     useEffect(() => {
         const fetchModelsAndVideos = async () => {
@@ -81,15 +82,19 @@ const CreateSequence = () => {
             const sequenceUID = Math.random().toString(36).substr(2, 9);
             const sequenceRef = doc(db, `users/${userUID}/Sequences`, sequenceUID);
 
+            const sequenceData = sequence.map(item => ({ type: item.type, id: item.id }));
+
             await setDoc(sequenceRef, {
                 name: sequenceName,
-                sequence,
+                description: sequenceDescription,
+                sequence: sequenceData,
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp(),
             });
 
             alert('Sequence saved successfully!');
             setSequenceName('');
+            setSequenceDescription('');
             setSequence([]);
         } catch (error) {
             console.error('Error saving sequence:', error);
@@ -101,10 +106,16 @@ const CreateSequence = () => {
         window.open(url, '_blank');
     };
 
+    const handleClear = () => {
+        setSequenceName('');
+        setSequenceDescription('');
+        setSequence([]);
+    };
+
     return (
         <Container>
             <Box sx={{ my: 4 }}>
-                <Typography variant="h4" component="h1" gutterBottom>
+                <Typography variant="h4" component="h1" gutterBottom color="black">
                     Create Sequence
                 </Typography>
                 <TextField
@@ -114,9 +125,16 @@ const CreateSequence = () => {
                     onChange={(e) => setSequenceName(e.target.value)}
                     sx={{ mb: 2 }}
                 />
+                <TextField
+                    label="Sequence Description"
+                    fullWidth
+                    value={sequenceDescription}
+                    onChange={(e) => setSequenceDescription(e.target.value)}
+                    sx={{ mb: 2 }}
+                />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                     <Box sx={{ flex: 1, mr: 1 }}>
-                        <Typography variant="h5">Your Models</Typography>
+                        <Typography variant="h5" color="black">Your Models</Typography>
                         <TableContainer component={Paper} sx={{ border: '1px solid #808080' }}>
                             <Table>
                                 <TableHead>
@@ -131,12 +149,12 @@ const CreateSequence = () => {
                                         <TableRow key={model.id}>
                                             <TableCell>{model.modelName}</TableCell>
                                             <TableCell>
-                                                <Button variant="contained" onClick={() => handleAddToSequence({ ...model, type: 'model' })}>
+                                                <Button variant="contained" sx={{ backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }} onClick={() => handleAddToSequence({ ...model, type: 'model' })}>
                                                     Add
                                                 </Button>
                                             </TableCell>
                                             <TableCell>
-                                                <IconButton color="primary" onClick={() => handleView(model.thumbnailURL)}>
+                                                <IconButton color="primary" sx={{ color: '#000', '&:hover': { color: '#333' } }} onClick={() => handleView(model.thumbnailURL)}>
                                                     <VisibilityIcon />
                                                 </IconButton>
                                             </TableCell>
@@ -147,7 +165,7 @@ const CreateSequence = () => {
                         </TableContainer>
                     </Box>
                     <Box sx={{ flex: 1, ml: 1 }}>
-                        <Typography variant="h5">Your Videos</Typography>
+                        <Typography variant="h5" color="black">Your Videos</Typography>
                         <TableContainer component={Paper} sx={{ border: '1px solid #808080' }}>
                             <Table>
                                 <TableHead>
@@ -162,12 +180,12 @@ const CreateSequence = () => {
                                         <TableRow key={video.id}>
                                             <TableCell>{video.name}</TableCell>
                                             <TableCell>
-                                                <Button variant="contained" onClick={() => handleAddToSequence({ ...video, type: 'video' })}>
+                                                <Button variant="contained" sx={{ backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }} onClick={() => handleAddToSequence({ ...video, type: 'video' })}>
                                                     Add
                                                 </Button>
                                             </TableCell>
                                             <TableCell>
-                                                <IconButton color="primary" onClick={() => handleView(video.videoURL)}>
+                                                <IconButton color="primary" sx={{ color: '#000', '&:hover': { color: '#333' } }} onClick={() => handleView(video.videoURL)}>
                                                     <VisibilityIcon />
                                                 </IconButton>
                                             </TableCell>
@@ -204,6 +222,14 @@ const CreateSequence = () => {
                     sx={{ backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }}
                 >
                     Save Sequence
+                </Button>
+                <Button
+                    variant="outlined"
+                    fullWidth
+                    onClick={handleClear}
+                    sx={{ mt: 2, borderColor: '#000', color: '#000', '&:hover': { borderColor: '#333', color: '#333' } }}
+                >
+                    Clear
                 </Button>
             </Box>
         </Container>

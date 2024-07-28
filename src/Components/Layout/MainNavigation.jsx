@@ -22,7 +22,7 @@ function MainNavigation() {
         <header className={classes.header}>
             <Link to='/IMPS/Home/'>
                 <div className={classes.logo}>
-                   IMPS
+                   IMPS AR
                 </div>
             </Link>
             <nav>
