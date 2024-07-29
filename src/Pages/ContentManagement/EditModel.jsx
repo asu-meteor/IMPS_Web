@@ -15,6 +15,10 @@ const Loading = () => (
     </div>
 );
 
+/**
+ * EditModel component allows the user to edit an existing model's details and files.
+ * Users can modify the model's information, upload new files, and delete the model if necessary.
+ */
 const EditModel = ({ content, setEditContent, fetchContent }) => {
     const { currentUser } = useAuth();
 
@@ -30,9 +34,12 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
     });
     const [uploadProgress, setUploadProgress] = useState(0);
     const [error, setError] = useState('');
-   const [mediaDisplay, setMediaDisplay] = useState('');
+    const [mediaDisplay, setMediaDisplay] = useState('');
     const [isUploading, setIsUploading] = useState(false);
 
+    /**
+     * useEffect hook to handle the beforeunload event during the upload process.
+     */
     useEffect(() => {
         const handleBeforeUnload = (e) => {
             if (isUploading) {
@@ -48,21 +55,39 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
         };
     }, [isUploading]);
 
+    /**
+     * Handles changes in text input fields.
+     * 
+     * @param {object} e - The event object.
+     */
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
+    /**
+     * Handles changes in checkbox input fields.
+     * 
+     * @param {object} e - The event object.
+     */
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
         setFormData({ ...formData, [name]: checked });
     };
 
+    /**
+     * Handles changes in file input fields.
+     * 
+     * @param {object} e - The event object.
+     */
     const handleFileChange = (e) => {
         const { name, files } = e.target;
         setFormData({ ...formData, [name]: files[0] });
     };
 
+    /**
+     * Adds a new animation to the model's animations.
+     */
     const addAnimation = () => {
         setFormData({
             ...formData,
@@ -73,6 +98,9 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
         });
     };
 
+    /**
+     * Adds a new content item to the model's contents.
+     */
     const addContent = () => {
         setFormData({
             ...formData,
@@ -83,18 +111,37 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
         });
     };
 
+    /**
+     * Handles changes in animation fields.
+     * 
+     * @param {number} index - The index of the animation to update.
+     * @param {string} field - The field to update.
+     * @param {string} value - The new value.
+     */
     const handleAnimationChange = (index, field, value) => {
         const newAnimations = [...formData.animations];
         newAnimations[index][field] = value;
         setFormData({ ...formData, animations: newAnimations });
     };
 
+    /**
+     * Handles changes in content fields.
+     * 
+     * @param {number} index - The index of the content to update.
+     * @param {string} field - The field to update.
+     * @param {string} value - The new value.
+     */
     const handleContentChange = (index, field, value) => {
         const newContents = [...formData.contents];
         newContents[index][field] = value;
         setFormData({ ...formData, contents: newContents });
     };
 
+    /**
+     * Removes an animation from the model's animations.
+     * 
+     * @param {number} index - The index of the animation to remove.
+     */
     const removeAnimation = (index) => {
         const newAnimations = formData.animations.filter((_, i) => i !== index);
         setFormData({
@@ -106,6 +153,11 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
         });
     };
 
+    /**
+     * Removes a content item from the model's contents.
+     * 
+     * @param {number} index - The index of the content to remove.
+     */
     const removeContent = (index) => {
         const newContents = formData.contents.filter((_, i) => i !== index);
         setFormData({
@@ -117,6 +169,11 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
         });
     };
 
+    /**
+     * Handles saving the updated model details to Firestore.
+     * 
+     * @param {object} e - The event object.
+     */
     const handleSave = async (e) => {
         e.preventDefault();
         setIsUploading(true);
@@ -186,6 +243,9 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
         }
     };
 
+    /**
+     * Handles deleting the model from Firestore and Storage.
+     */
     const handleDelete = async () => {
         try {
             const userUID = currentUser.uid;
@@ -220,6 +280,12 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
         }
     };
 
+    /**
+     * Renders the media content based on the selected type.
+     * 
+     * @param {string} contentType - The type of content to render.
+     * @returns {JSX.Element|null} The rendered content.
+     */
     const renderMedia = (contentType) => {
         switch (contentType) {
             case "FBX":

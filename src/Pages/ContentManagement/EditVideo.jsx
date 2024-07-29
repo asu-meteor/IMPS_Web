@@ -6,7 +6,15 @@ import { db, storage } from '../../Firebase';
 import { useAuth } from '../../context/AuthContext';
 import PropTypes from 'prop-types';
 
-
+/**
+ * EditVideo component allows users to edit and update video details.
+ * It also handles video file upload, replacement, and deletion.
+ * 
+ * @param {Object} props - The props for the component.
+ * @param {Object} props.content - The content object containing video details.
+ * @param {Function} props.setEditContent - Function to set the editing state.
+ * @param {Function} props.fetchContent - Function to fetch content list.
+ */
 const EditVideo = ({ content, setEditContent, fetchContent }) => {
     const { currentUser } = useAuth();
     const [formData, setFormData] = useState({
@@ -18,6 +26,7 @@ const EditVideo = ({ content, setEditContent, fetchContent }) => {
     const [error, setError] = useState('');
     const [isUploading, setIsUploading] = useState(false);
 
+    // Adds an event listener to warn users before leaving the page during upload
     useEffect(() => {
         const handleBeforeUnload = (e) => {
             if (isUploading) {
@@ -33,15 +42,18 @@ const EditVideo = ({ content, setEditContent, fetchContent }) => {
         };
     }, [isUploading]);
 
+    // Handles input changes for text fields
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
+    // Handles file selection for video upload
     const handleFileChange = (e) => {
         setFormData({ ...formData, videoFile: e.target.files[0] });
     };
 
+    // Handles saving the updated video details and uploading the new video file if selected
     const handleSave = async (e) => {
         e.preventDefault();
         setIsUploading(true);
@@ -115,6 +127,7 @@ const EditVideo = ({ content, setEditContent, fetchContent }) => {
         }
     };
 
+    // Handles deleting the video and its associated data
     const handleDelete = async () => {
         try {
             // Delete the video file from storage

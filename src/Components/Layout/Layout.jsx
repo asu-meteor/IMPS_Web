@@ -2,7 +2,10 @@ import MainNavigation from './MainNavigation';
 import PropTypes from 'prop-types';
 
 
-//Function handling layout of general menu.
+/**
+ * Layout component handles the general layout of the application.
+ * It includes the MainNavigation component and renders any children passed to it.
+ */
 function Layout(props) {
     return (
         <div>

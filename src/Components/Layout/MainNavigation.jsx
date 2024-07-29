@@ -3,12 +3,18 @@ import classes from './MainNavigation.module.css';
 import { Button } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
 
-//Function creates menu buttons and links them to their respective subpages.
+/**
+ * MainNavigation component renders the navigation bar with links to different pages.
+ * It also provides a logout button if a user is logged in.
+ */
 function MainNavigation() {
 
     const { currentUser, logout } = useAuth();
 
-
+    /**
+    * handleLogout function logs the user out by calling the logout function from the Auth context.
+    * It also handles any errors that might occur during the logout process.
+    */
     const handleLogout = async () => {
         try {
             await logout();

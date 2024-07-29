@@ -3,9 +3,13 @@ import { Container, Typography, Box, ToggleButton, Grid } from '@mui/material';
 import CreateSequence from './CreateSequence';
 import ModifySequences from './ModifySequences';
 
+
+/**
+ * MediaSequencer component handles the creation and modification of media sequences.
+ * Users can toggle between creating a new sequence and modifying existing sequences.
+ */
 const MediaSequencer = () => {
     const [view, setView] = useState('create');
-
 
     return (
         <Container>

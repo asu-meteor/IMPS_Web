@@ -5,9 +5,18 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../Firebase';
 import { useAuth } from '../../context/AuthContext';
 
+/**
+ * UploadVideo component handles the upload of new video content.
+ * Users can fill in video details, select a video file, and upload it to Firestore.
+ */
 const UploadVideo = () => {
+    /**
+     * Generates a short UID for identifying the video.
+     * 
+     * @returns {string} A 9-character alphanumeric string.
+     */
     const generateShortUID = () => {
-        return Math.random().toString(36).substr(2, 9); // Generates a 9-character alphanumeric string
+        return Math.random().toString(36).substr(2, 9);
     };
 
     const { currentUser } = useAuth();
@@ -20,6 +29,9 @@ const UploadVideo = () => {
     const [error, setError] = useState('');
     const [isUploading, setIsUploading] = useState(false);
 
+    /**
+     * useEffect hook to handle the beforeunload event during the upload process.
+     */
     useEffect(() => {
         const handleBeforeUnload = (e) => {
             if (isUploading) {
@@ -35,15 +47,30 @@ const UploadVideo = () => {
         };
     }, [isUploading]);
 
+    /**
+     * Handles changes in text input fields.
+     * 
+     * @param {object} e - The event object.
+     */
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
+    /**
+     * Handles changes in file input fields.
+     * 
+     * @param {object} e - The event object.
+     */
     const handleFileChange = (e) => {
         setFormData({ ...formData, videoFile: e.target.files[0] });
     };
 
+    /**
+     * Handles the form submission and uploads the video to Firestore.
+     * 
+     * @param {object} e - The event object.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Auth is ' + currentUser.uid);

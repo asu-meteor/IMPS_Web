@@ -10,7 +10,11 @@ import PrivateRoute from './Components/PrivateRoute';
 import { Navigate } from 'react-router-dom';
 import ModifySequence from './Pages/ContentSequencing/ModifySequence';
 
-
+/*
+ * Entry point for the app. This function is also declaring valid routes, and sets up a cookie system that
+ * 1. Does not let the user access any routes under <PrivateRoute/> before signing in
+ * 2. Automatically directs the user to the sign in page
+ */
 function App() {
     return (
         <Layout>

@@ -6,9 +6,19 @@ import { db, storage } from '../../Firebase';
 import { useAuth } from '../../context/AuthContext';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+/**
+ * UploadModel component handles the upload of new 3D models.
+ * Users can fill in model details, select files, and upload them to Firestore.
+ */
 const UploadModel = () => {
+
+    /**
+     * Generates a short UID for identifying the model.
+     * 
+     * @returns {string} A 9-character alphanumeric string.
+     */
     const generateShortUID = () => {
-        return Math.random().toString(36).substr(2, 9); // Generates a 9-character alphanumeric string
+        return Math.random().toString(36).substr(2, 9);
     };
 
     const { currentUser } = useAuth();
@@ -27,6 +37,9 @@ const UploadModel = () => {
     const [error, setError] = useState('');
     const [isUploading, setIsUploading] = useState(false);
 
+    /**
+     * useEffect hook to handle the beforeunload event during the upload process.
+     */
     useEffect(() => {
         const handleBeforeUnload = (e) => {
             if (isUploading) {
@@ -42,21 +55,39 @@ const UploadModel = () => {
         };
     }, [isUploading]);
 
+    /**
+     * Handles changes in text input fields.
+     * 
+     * @param {object} e - The event object.
+     */
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
+    /**
+     * Handles changes in checkbox input fields.
+     * 
+     * @param {object} e - The event object.
+     */
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
         setFormData({ ...formData, [name]: checked });
     };
 
+    /**
+     * Handles changes in file input fields.
+     * 
+     * @param {object} e - The event object.
+     */
     const handleFileChange = (e) => {
         const { name, files } = e.target;
         setFormData({ ...formData, [name]: files[0] });
     };
 
+    /**
+     * Adds a new animation to the formData.
+     */
     const addAnimation = () => {
         setFormData({
             ...formData,
@@ -67,6 +98,9 @@ const UploadModel = () => {
         });
     };
 
+    /**
+     * Adds new content to the formData.
+     */
     const addContent = () => {
         setFormData({
             ...formData,
@@ -77,18 +111,37 @@ const UploadModel = () => {
         });
     };
 
+    /**
+     * Handles changes in animation fields.
+     * 
+     * @param {number} index - The index of the animation.
+     * @param {string} field - The field to be changed.
+     * @param {string} value - The new value of the field.
+     */
     const handleAnimationChange = (index, field, value) => {
         const newAnimations = [...formData.animations];
         newAnimations[index][field] = value;
         setFormData({ ...formData, animations: newAnimations });
     };
 
+    /**
+     * Handles changes in content fields.
+     * 
+     * @param {number} index - The index of the content.
+     * @param {string} field - The field to be changed.
+     * @param {string} value - The new value of the field.
+     */
     const handleContentChange = (index, field, value) => {
         const newContents = [...formData.contents];
         newContents[index][field] = value;
         setFormData({ ...formData, contents: newContents });
     };
 
+    /**
+     * Removes an animation from the formData.
+     * 
+     * @param {number} index - The index of the animation to be removed.
+     */
     const removeAnimation = (index) => {
         const newAnimations = formData.animations.filter((_, i) => i !== index);
         setFormData({
@@ -100,6 +153,11 @@ const UploadModel = () => {
         });
     };
 
+    /**
+     * Removes content from the formData.
+     * 
+     * @param {number} index - The index of the content to be removed.
+     */
     const removeContent = (index) => {
         const newContents = formData.contents.filter((_, i) => i !== index);
         setFormData({
@@ -111,6 +169,11 @@ const UploadModel = () => {
         });
     };
 
+    /**
+     * Handles the form submission and uploads the model to Firestore.
+     * 
+     * @param {object} e - The event object.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Auth is ' + currentUser.uid);
@@ -125,6 +188,13 @@ const UploadModel = () => {
             const modelUID = generateShortUID();
             const userUID = currentUser.uid;
 
+            /**
+             * Uploads a file to Firebase Storage and returns the download URL.
+             * 
+             * @param {File} file - The file to be uploaded.
+             * @param {string} filePath - The path where the file should be stored.
+             * @returns {Promise<string>} The download URL of the uploaded file.
+             */
             const uploadFile = async (file, filePath) => {
                 const fileRef = ref(storage, filePath);
                 const uploadTask = uploadBytesResumable(fileRef, file);
@@ -147,6 +217,9 @@ const UploadModel = () => {
                 });
             };
 
+            /**
+             * Get download URLs for all media types
+             */
             const fbxURL = await uploadFile(formData.fbxFile, `${userUID}/Models/${modelUID}/fbx_${formData.fbxFile.name}`);
             const thumbnailURL = await uploadFile(formData.thumbnailFile, `${userUID}/Models/${modelUID}/thumbnail_${formData.thumbnailFile.name}`);
             const mediaURL = formData.mediaFile !== null ? await uploadFile(formData.mediaFile, `${userUID}/Models/${modelUID}/media_${formData.mediaFile.name}`) : null ;
@@ -165,6 +238,9 @@ const UploadModel = () => {
                 updatedAt: serverTimestamp(),
             });
 
+            /**
+             * Clear everything
+             */
             alert('Model uploaded successfully!');
             setError('');
             setFormData({

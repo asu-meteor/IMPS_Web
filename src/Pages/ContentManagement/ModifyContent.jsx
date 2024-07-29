@@ -7,19 +7,26 @@ import { format } from 'date-fns';
 import EditVideo from './EditVideo';
 import EditModel from './EditModel';
 
-
+// Function to format duration in MM:SS format
 const formatDuration = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
 };
 
+/**
+ * ModifyContent component allows the user to view and edit existing video and model content.
+ * Users can select the type of content, view details in a table, and edit or delete the content.
+ */
 const ModifyContent = () => {
     const { currentUser } = useAuth();
     const [contentType, setContentType] = useState('Video');
     const [contentList, setContentList] = useState([]);
     const [editContent, setEditContent] = useState(null);
 
+    /**
+     * Fetches content from Firestore based on the selected content type.
+     */
     const fetchContent = useCallback(async () => {
         if (currentUser) {
             const contentCollection = collection(db, `users/${currentUser.uid}/${contentType}s`);
@@ -36,6 +43,11 @@ const ModifyContent = () => {
         fetchContent();
     }, [fetchContent]);
 
+    /**
+     * Handles edit button click by setting the selected content for editing.
+     * 
+     * @param {object} content - The content to be edited.
+     */
     const handleEditClick = (content) => {
         setEditContent(content);
     };

@@ -5,7 +5,10 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../../Firebase';
 import { doc, setDoc } from 'firebase/firestore';
 
-
+/**
+ * SignUpPage component handles user registration functionality.
+ * It allows users to sign up with their details and stores the user information in Firestore.
+ */
 const SignUpPage = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -16,6 +19,14 @@ const SignUpPage = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    /**
+     * handleSignUp function handles the user registration process.
+     * It uses Firebase authentication to create a new user with the provided email and password.
+     * On successful registration, it stores the user's details in Firestore and navigates to the home page.
+     * If there is an error during registration, it sets the error message to be displayed.
+     * 
+     * @param {Event} event - The form submit event.
+     */
     const handleSignUp = async (event) => {
         event.preventDefault();
         if (password !== confirmPassword) {

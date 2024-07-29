@@ -3,13 +3,15 @@ import { Container, Typography, Box, Button, Table, TableBody, TableCell, TableC
 import { doc, setDoc, getDocs, collection, query, orderBy, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../Firebase';
 import { useAuth } from '../../context/AuthContext';
-
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ArrowBackIcon from '../../Images/arrowBack.png';
 import ArrowForwardIcon from '../../Images/arrowForward.png';
 
-
+/**
+* CreateSequence component handles the creation of new media sequences.
+* Users can add models and videos to a sequence, reorder items, and save the sequence to Firestore.
+*/
 const CreateSequence = () => {
     const { currentUser } = useAuth();
     const [models, setModels] = useState([]);
@@ -18,6 +20,10 @@ const CreateSequence = () => {
     const [sequenceName, setSequenceName] = useState('');
     const [sequenceDescription, setSequenceDescription] = useState('');
 
+    /**
+    * useEffect hook to fetch models and videos from Firestore for the current user.
+    * It fetches the data when the component mounts or when the currentUser changes.
+    */
     useEffect(() => {
         const fetchModelsAndVideos = async () => {
             if (currentUser) {
@@ -45,16 +51,31 @@ const CreateSequence = () => {
         fetchModelsAndVideos();
     }, [currentUser]);
 
+    /**
+    * Adds an item (model or video) to the sequence.
+    * 
+    * @param {object} item - The item to be added to the sequence.
+    */
     const handleAddToSequence = (item) => {
         setSequence([...sequence, item]);
     };
 
+    /**
+    * Removes an item from the sequence based on its index.
+    * 
+    * @param {number} index - The index of the item to be removed.
+    */
     const handleRemoveFromSequence = (index) => {
         const newSequence = Array.from(sequence);
         newSequence.splice(index, 1);
         setSequence(newSequence);
     };
 
+    /**
+    * Moves an item left in the sequence based on its index.
+    * 
+    * @param {number} index - The index of the item to be moved left.
+    */
     const handleMoveLeft = (index) => {
         if (index === 0) return;
         const newSequence = Array.from(sequence);
@@ -63,6 +84,11 @@ const CreateSequence = () => {
         setSequence(newSequence);
     };
 
+    /**
+    * Moves an item right in the sequence based on its index.
+    * 
+    * @param {number} index - The index of the item to be moved right.
+    */
     const handleMoveRight = (index) => {
         if (index === sequence.length - 1) return;
         const newSequence = Array.from(sequence);
@@ -71,6 +97,10 @@ const CreateSequence = () => {
         setSequence(newSequence);
     };
 
+    /**
+    * Submits the sequence to Firestore.
+    * Saves the sequence name, description, and items in the sequence.
+    */
     const handleSubmit = async () => {
         if (sequenceName.trim() === '') {
             alert('Please enter a sequence name.');
@@ -102,10 +132,19 @@ const CreateSequence = () => {
         }
     };
 
+    /**
+    * Opens a new window to view the specified URL.
+    * 
+    * @param {string} url - The URL to be viewed.
+    */
     const handleView = (url) => {
         window.open(url, '_blank');
     };
 
+    /**
+    * Clears the sequence form.
+    * Resets the sequence name, description, and items.
+    */
     const handleClear = () => {
         setSequenceName('');
         setSequenceDescription('');

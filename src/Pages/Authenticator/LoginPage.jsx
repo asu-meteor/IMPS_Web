@@ -4,13 +4,25 @@ import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Firebase';
 
-
+/**
+ * LoginPage component handles user login functionality.
+ * It allows users to log in with their email and password, and navigates to the home page upon successful login.
+ */
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+
+    /**
+     * handleLogin function handles the login process.
+     * It uses Firebase authentication to sign in with the provided email and password.
+     * On successful login, it navigates the user to the home page.
+     * If there is an error during login, it sets the error message to be displayed.
+     * 
+     * @param {Event} event - The form submit event.
+     */
     const handleLogin = async (event) => {
         event.preventDefault();
         try {

@@ -6,7 +6,10 @@ import { db } from '../../Firebase';
 import { useAuth } from '../../context/AuthContext';
 import ModifySequence from './ModifySequence';
 
-
+/**
+ * ModifySequences component allows users to view and edit their media sequences.
+ * It fetches sequences from Firestore and displays them in a table, with options to edit each sequence.
+ */
 const ModifySequences = () => {
     const { currentUser } = useAuth();
     const [sequences, setSequences] = useState([]);
@@ -14,7 +17,10 @@ const ModifySequences = () => {
     const [editSequence, setEditSequence] = useState(false);
     const [sequenceID, setSequenceID] = useState('');
 
-
+    /**
+     * fetchSequences function fetches the sequences for the current user from Firestore.
+     * It uses a useCallback hook to ensure the function is not recreated on every render.
+     */
     const fetchSequences = useCallback(async () => {
         if (currentUser) {
             const userUID = currentUser.uid;
@@ -28,10 +34,18 @@ const ModifySequences = () => {
         }
     }, [currentUser]);
 
+    /**
+     * useEffect hook to fetch sequences when the component mounts or when fetchSequences changes.
+     */
     useEffect(() => {
         fetchSequences();
     }, [fetchSequences]);
 
+    /**
+     * handleEdit function sets the state to edit mode and navigates to the edit sequence page.
+     * 
+     * @param {string} sequenceId - The ID of the sequence to be edited.
+     */
     const handleEdit = (sequenceId) => {
         setEditSequence(true);
         setSequenceID(sequenceId);

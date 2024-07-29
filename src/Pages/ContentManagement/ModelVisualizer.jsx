@@ -5,9 +5,15 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { Stage, PresentationControls } from '@react-three/drei';
 import PropTypes from 'prop-types';
 
+/**
+ * ModelVisualizer component renders a 3D model using the provided model URL.
+ * It uses the FBXLoader to load the model and the @react-three/fiber Canvas for rendering.
+ * The model can be interacted with using the PresentationControls.
+ *
+ * @param {string} modelURL - The URL of the 3D model to be visualized.
+ */
 const ModelVisualizer = ({ modelURL }) => {
-    console.log(modelURL);
-    //const fbx = useFBX(modelURL);
+    // Load the FBX model using the provided URL
     const fbx = useLoader(FBXLoader, modelURL);
 
     return (

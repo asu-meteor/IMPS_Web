@@ -3,9 +3,12 @@ import { Container, Typography, Box, ToggleButton, Grid } from '@mui/material';
 import UploadContent from './UploadContent';
 import ModifyContent from './ModifyContent';
 
+/**
+ * MediaManager component provides a user interface for managing media content.
+ * Users can toggle between uploading new media and modifying existing media.
+ */
 const MediaManager = () => {
     const [view, setView] = useState('upload');
-
 
     return (
         <Container>

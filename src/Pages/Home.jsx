@@ -2,7 +2,10 @@ import { Container, Typography, Box, Grid, Card, CardContent, Button } from '@mu
 import styles from './Home.module.css';
 import { Link } from 'react-router-dom';
 
-
+/**
+ * Home component renders the home page of the IMPS AR application.
+ * It includes an introduction to the platform and links to the Media Manager and Media Sequencer dashboards.
+ */
 function Home() {
     return (
         <Container className={styles.homeContainer}>

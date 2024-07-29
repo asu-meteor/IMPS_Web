@@ -11,6 +11,16 @@ import ArrowBackIcon from '../../Images/arrowBack.png';
 import ArrowForwardIcon from '../../Images/arrowForward.png';
 import PropTypes from 'prop-types';
 
+/**
+ * ModifySequence component allows users to edit or delete an existing media sequence.
+ * It fetches sequence data from Firestore and displays it for modification.
+ * 
+ * @param {object} props - The component props.
+ * @param {string} props.sequenceID - The ID of the sequence to be modified.
+ * @param {function} props.fetchSequences - Function to fetch sequences after modification.
+ * @param {function} props.setEditSequence - Function to toggle the edit mode.
+ */
+const M
 const ModifySequence = ({sequenceID, fetchSequences, setEditSequence}) => {
     const { currentUser } = useAuth();
     const [models, setModels] = useState([]);
@@ -21,6 +31,10 @@ const ModifySequence = ({sequenceID, fetchSequences, setEditSequence}) => {
     const [sequenceDescription, setSequenceDescription] = useState('');
     const navigate = useNavigate();
 
+    /**
+     * useEffect hook to fetch models, videos, and sequence data from Firestore.
+     * It fetches data when the component mounts or when currentUser or sequenceID changes.
+     */
     useEffect(() => {
         const fetchModelsAndVideos = async () => {
             if (currentUser) {
@@ -62,16 +76,31 @@ const ModifySequence = ({sequenceID, fetchSequences, setEditSequence}) => {
         fetchModelsAndVideos();
     }, [currentUser, sequenceID]);
 
+    /**
+     * Adds an item (model or video) to the sequence.
+     * 
+     * @param {object} item - The item to be added to the sequence.
+     */
     const handleAddToSequence = (item) => {
         setSequence([...sequence, item]);
     };
 
+    /**
+     * Removes an item from the sequence based on its index.
+     * 
+     * @param {number} index - The index of the item to be removed.
+     */
     const handleRemoveFromSequence = (index) => {
         const newSequence = Array.from(sequence);
         newSequence.splice(index, 1);
         setSequence(newSequence);
     };
 
+    /**
+     * Moves an item left in the sequence based on its index.
+     * 
+     * @param {number} index - The index of the item to be moved left.
+     */
     const handleMoveLeft = (index) => {
         if (index === 0) return;
         const newSequence = Array.from(sequence);
@@ -80,6 +109,11 @@ const ModifySequence = ({sequenceID, fetchSequences, setEditSequence}) => {
         setSequence(newSequence);
     };
 
+    /**
+     * Moves an item right in the sequence based on its index.
+     * 
+     * @param {number} index - The index of the item to be moved right.
+     */
     const handleMoveRight = (index) => {
         if (index === sequence.length - 1) return;
         const newSequence = Array.from(sequence);
@@ -88,6 +122,9 @@ const ModifySequence = ({sequenceID, fetchSequences, setEditSequence}) => {
         setSequence(newSequence);
     };
 
+    /**
+     * Saves the modified sequence to Firestore.
+     */
     const handleSave = async () => {
         if (sequenceName.trim() === '') {
             alert('Please enter a sequence name.');
@@ -118,6 +155,9 @@ const ModifySequence = ({sequenceID, fetchSequences, setEditSequence}) => {
         }
     };
 
+    /**
+     * Deletes the current sequence from Firestore.
+     */
     const handleDelete = async () => {
         try {
             const userUID = currentUser.uid;
@@ -133,12 +173,20 @@ const ModifySequence = ({sequenceID, fetchSequences, setEditSequence}) => {
         }
     };
 
+    /**
+     * Cancels the edit and navigates back to the Media Sequencer page.
+     */
     const handleCancel = () => {
         navigate('/IMPS/Media-Sequencer');
         fetchSequences();
         setEditSequence(false);
     };
 
+    /**
+     * Opens a new window to view the specified URL.
+     * 
+     * @param {string} url - The URL to be viewed.
+     */
     const handleView = (url) => {
         window.open(url, '_blank');
     };
