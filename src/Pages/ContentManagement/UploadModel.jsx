@@ -282,7 +282,7 @@ const UploadModel = () => {
                                 Select .gLTF Model
                                 <input
                                     type="file"
-                                    accept=".fbx, .obj, .gltf"
+                                    accept=".fbx, .obj, .gltf, .glb"
                                     hidden
                                     name="fbxFile"
                                     onChange={handleFileChange}
