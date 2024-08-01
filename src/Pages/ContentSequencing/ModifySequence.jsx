@@ -20,8 +20,8 @@ import PropTypes from 'prop-types';
  * @param {function} props.fetchSequences - Function to fetch sequences after modification.
  * @param {function} props.setEditSequence - Function to toggle the edit mode.
  */
-const M
-const ModifySequence = ({sequenceID, fetchSequences, setEditSequence}) => {
+
+const ModifySequence = ({ sequenceID, fetchSequences, setEditSequence }) => {
     const { currentUser } = useAuth();
     const [models, setModels] = useState([]);
     const [videos, setVideos] = useState([]);
