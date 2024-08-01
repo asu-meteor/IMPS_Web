@@ -213,7 +213,7 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
             };
 
             if (formData.fbxFile) {
-                const fbxURL = await uploadFile(formData.fbxFile, `${userUID}/Models/${modelUID}/fbx_${formData.fbxFile.name}`);
+                const fbxURL = await uploadFile(formData.fbxFile, `${userUID}/Models/${modelUID}/model_${formData.fbxFile.name}`);
                 updates.fbxURL = fbxURL;
             }
 
@@ -257,7 +257,7 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
             };
 
             if (content.fbxURL) {
-                await deleteFile(`${userUID}/Models/${modelUID}/fbx_${content.fbxFileName}`);
+                await deleteFile(`${userUID}/Models/${modelUID}/model_${content.fbxFileName}`);
             }
 
             if (content.thumbnailURL) {
@@ -292,7 +292,7 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
                 return (
                     // Your JSX for FBX content
                     <Container>
-                        <Typography color="black">FBX Content</Typography>
+                        <Typography color="black">.gLTF Content</Typography>
                         <ModelVisualizer modelURL={content.fbxURL} />
                     </Container>
 
@@ -344,7 +344,7 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
                                 sx={{ mb: 2, backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }}
                                 disabled={isUploading}
                             >
-                                Change FBX Model
+                                Change .gLTF Model
                                 <input
                                     type="file"
                                     accept=".fbx, .obj, .gltf"
@@ -355,7 +355,7 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
                             </Button>
                             {formData.fbxFile && (
                                 <Typography variant="body1" component="p" color="black" sx={{ mb: 3 }}>
-                                    Selected FBX file: {formData.fbxFile.name}
+                                    Selected .gLTF file: {formData.fbxFile.name}
                                 </Typography>
                             )}
                         </Grid>
@@ -369,7 +369,7 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
                                 Change Model Thumbnail
                                 <input
                                     type="file"
-                                    accept="image/*"
+                                    accept=".jpg,.jpeg,.png,.gif,.bmp"
                                     hidden
                                     name="thumbnailFile"
                                     onChange={handleFileChange}
@@ -510,7 +510,7 @@ const EditModel = ({ content, setEditContent, fetchContent }) => {
                                 Select Support Media (optional)
                                 <input
                                     type="file"
-                                    accept="image/*,video/*"
+                                    accept=".jpg,.jpeg,.png,.gif,.bmp,video/*"
                                     hidden
                                     name="mediaFile"
                                     onChange={handleFileChange}

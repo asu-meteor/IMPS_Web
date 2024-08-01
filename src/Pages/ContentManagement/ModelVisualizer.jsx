@@ -1,6 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 import { Canvas, useLoader } from '@react-three/fiber';
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+//import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+
 //import { useFBX, Stage, PresentationControls } from '@react-three/drei';
 import { Stage, PresentationControls } from '@react-three/drei';
 import PropTypes from 'prop-types';
@@ -14,7 +16,7 @@ import PropTypes from 'prop-types';
  */
 const ModelVisualizer = ({ modelURL }) => {
     // Load the FBX model using the provided URL
-    const fbx = useLoader(FBXLoader, modelURL);
+    const model = useLoader(GLTFLoader, modelURL);
 
     return (
         <Canvas dpr={[1, 2]} shadows camera={{ fov: 45 }} style={{ "position": "absolute" }}>
@@ -22,7 +24,7 @@ const ModelVisualizer = ({ modelURL }) => {
 
             <PresentationControls speed={1.5} global zoom={0.5} polar={[-0.1, Math.PI/4] }>
                 <Stage environment={"sunset"}>
-                        <primitive object={fbx} scale={0.1} />
+                    <primitive object={model} scale={0.1} />
                 </Stage>
             </PresentationControls>
         </Canvas>

@@ -179,7 +179,7 @@ const UploadModel = () => {
         console.log('Auth is ' + currentUser.uid);
 
         if (!formData.fbxFile || !formData.thumbnailFile) {
-            setError('Please select both a media file and an FBX model file.');
+            setError('Please select both a media file and a .gLTF model file.');
             return;
         }
 
@@ -220,7 +220,7 @@ const UploadModel = () => {
             /**
              * Get download URLs for all media types
              */
-            const fbxURL = await uploadFile(formData.fbxFile, `${userUID}/Models/${modelUID}/fbx_${formData.fbxFile.name}`);
+            const fbxURL = await uploadFile(formData.fbxFile, `${userUID}/Models/${modelUID}/model_${formData.fbxFile.name}`);
             const thumbnailURL = await uploadFile(formData.thumbnailFile, `${userUID}/Models/${modelUID}/thumbnail_${formData.thumbnailFile.name}`);
             const mediaURL = formData.mediaFile !== null ? await uploadFile(formData.mediaFile, `${userUID}/Models/${modelUID}/media_${formData.mediaFile.name}`) : null ;
 
@@ -279,7 +279,7 @@ const UploadModel = () => {
                                 sx={{ mb: 2, backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }}
                                 disabled={isUploading}
                             >
-                                Select FBX Model
+                                Select .gLTF Model
                                 <input
                                     type="file"
                                     accept=".fbx, .obj, .gltf"
@@ -290,7 +290,7 @@ const UploadModel = () => {
                              </Button>
                             {formData.fbxFile && (
                                 <Typography variant="body1" component="p" color="black" sx={{ mb :3}}>
-                                    Selected FBX file: {formData.fbxFile.name}
+                                    Selected .gLTF file: {formData.fbxFile.name}
                                 </Typography>
                                     )}
                          </Grid>
@@ -305,7 +305,7 @@ const UploadModel = () => {
                                 Select Model Thumbnail
                                 <input
                                     type="file"
-                                    accept="image/*"
+                                    accept=".jpg,.jpeg,.png,.gif,.bmp"
                                     hidden
                                     name="thumbnailFile"
                                     onChange={handleFileChange}
@@ -445,7 +445,7 @@ const UploadModel = () => {
                                 Select Support Media (optional)
                                 <input
                                     type="file"
-                                    accept="image/*,video/*"
+                                    accept=".jpg,.jpeg,.png,.gif,.bmp,video/*" 
                                     hidden
                                     name="mediaFile"
                                     onChange={handleFileChange}

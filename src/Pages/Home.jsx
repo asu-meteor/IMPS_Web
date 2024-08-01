@@ -45,7 +45,7 @@ function Home() {
                                     Access the Media Manager to upload new Videos or 3D Models or modify existing ones. 
                                 </Typography>
                                 <Link to='/IMPS/Media-Manager'>
-                                    <Button className={styles.cardButton} variant="contained">
+                                    <Button className={styles.cardButton} variant="contained" sx={{ color: 'white', backgroundColor: 'black', '&:hover': { color: 'black', backgroundColor: 'white', }, borderColor: 'info.main' }} >
                                         MEDIA MANAGER
                                     </Button>
                                 </Link>
@@ -62,7 +62,7 @@ function Home() {
                                     Use the Media Sequencer to group and order your media into sequences or lectures.
                                 </Typography>
                                 <Link to='/IMPS/Media-Sequencer'>
-                                    <Button className={styles.cardButton} variant="contained">
+                                    <Button className={styles.cardButton} variant="contained" sx={{ color: 'white', backgroundColor: 'black', '&:hover': { color: 'black', backgroundColor: 'white', }, borderColor: 'info.main' }} >
                                         MEDIA SEQUENCER
                                     </Button>
                                 </Link>
