@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Typography, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TextField } from '@mui/material';
+import { Typography, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TextField } from '@mui/material';
 import { doc, getDoc, setDoc, deleteDoc, collection, getDocs, query, orderBy, serverTimestamp } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../Firebase';
@@ -192,135 +192,206 @@ const ModifySequence = ({ sequenceID, fetchSequences, setEditSequence }) => {
     };
 
     return (
-        <Container>
-            <Box sx={{ my: 4 }}>
-                <Typography variant="h4" component="h1" gutterBottom color="black">
-                    Modify Sequence
-                </Typography>
-                <TextField
-                    label="Sequence Name"
-                    fullWidth
-                    value={sequenceName}
-                    onChange={(e) => setSequenceName(e.target.value)}
-                    sx={{ mb: 2 }}
-                />
-                <TextField
-                    label="Sequence Description"
-                    fullWidth
-                    value={sequenceDescription}
-                    onChange={(e) => setSequenceDescription(e.target.value)}
-                    sx={{ mb: 2 }}
-                />
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                    <Box sx={{ flex: 1, mr: 1 }}>
-                        <Typography variant="h5" color="black">Your Models</Typography>
-                        <TableContainer component={Paper} sx={{ border: '1px solid #808080' }}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Model Name</TableCell>
-                                        <TableCell>Add</TableCell>
-                                        <TableCell>View</TableCell>
+        <Box>
+            <Typography variant="h6" component="h2" align="center" sx={{ fontWeight: 'bold', mb: 3 }}>
+                Modify Sequence
+            </Typography>
+            
+            <TextField
+                label="Name*"
+                fullWidth
+                value={sequenceName}
+                onChange={(e) => setSequenceName(e.target.value)}
+                sx={{ mb: 3 }}
+                InputProps={{
+                    sx: { height: '56px' }
+                }}
+            />
+            
+            <TextField
+                label="Description*"
+                fullWidth
+                multiline
+                rows={4}
+                value={sequenceDescription}
+                onChange={(e) => setSequenceDescription(e.target.value)}
+                sx={{ mb: 3 }}
+            />
+            
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, gap: 2 }}>
+                <Box sx={{ flex: 1 }}>
+                    <Typography variant="subtitle1" align="center" sx={{ mb: 1, fontWeight: 'medium', bgcolor: '#f5f5f5', p: 1 }}>
+                        Your Models
+                    </Typography>
+                    <TableContainer component={Paper} sx={{ border: '1px solid #eee', boxShadow: 'none' }}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell align="center">Add</TableCell>
+                                    <TableCell align="center">View</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {models.map((model) => (
+                                    <TableRow key={model.id}>
+                                        <TableCell>{model.modelName}</TableCell>
+                                        <TableCell align="center">
+                                            <Button 
+                                                variant="contained" 
+                                                sx={{ 
+                                                    backgroundColor: '#8C1D40', 
+                                                    color: '#fff', 
+                                                    '&:hover': { backgroundColor: '#6a1430' },
+                                                    textTransform: 'none',
+                                                    fontWeight: 'normal',
+                                                    padding: '5px 15px',
+                                                    minWidth: '40px'
+                                                }} 
+                                                onClick={() => handleAddToSequence({ ...model, type: 'model' })}
+                                            >
+                                                Add
+                                            </Button>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <IconButton 
+                                                sx={{ 
+                                                    '&:hover': { color: '#8C1D40' } 
+                                                }} 
+                                                onClick={() => handleView(model.fbxURL)}
+                                            >
+                                                <VisibilityIcon />
+                                            </IconButton>
+                                        </TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {models.map((model) => (
-                                        <TableRow key={model.id}>
-                                            <TableCell>{model.modelName}</TableCell>
-                                            <TableCell>
-                                                <Button variant="contained" sx={{ backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }} onClick={() => handleAddToSequence({ ...model, type: 'model' })}>
-                                                    Add
-                                                </Button>
-                                            </TableCell>
-                                            <TableCell>
-                                                <IconButton color="primary" sx={{ color: '#000', '&:hover': { color: '#333' } }} onClick={() => handleView(model.thumbnailURL)}>
-                                                    <VisibilityIcon />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Box>
-                    <Box sx={{ flex: 1, ml: 1 }}>
-                        <Typography variant="h5" color="black">Your Videos</Typography>
-                        <TableContainer component={Paper} sx={{ border: '1px solid #808080' }}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Video Name</TableCell>
-                                        <TableCell>Add</TableCell>
-                                        <TableCell>View</TableCell>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Box>
+                
+                <Box sx={{ flex: 1 }}>
+                    <Typography variant="subtitle1" align="center" sx={{ mb: 1, fontWeight: 'medium', bgcolor: '#f5f5f5', p: 1 }}>
+                        Your Videos
+                    </Typography>
+                    <TableContainer component={Paper} sx={{ border: '1px solid #eee', boxShadow: 'none' }}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell align="center">Add</TableCell>
+                                    <TableCell align="center">View</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {videos.map((video) => (
+                                    <TableRow key={video.id}>
+                                        <TableCell>{video.name}</TableCell>
+                                        <TableCell align="center">
+                                            <Button 
+                                                variant="contained" 
+                                                sx={{ 
+                                                    backgroundColor: '#8C1D40', 
+                                                    color: '#fff', 
+                                                    '&:hover': { backgroundColor: '#6a1430' },
+                                                    textTransform: 'none',
+                                                    fontWeight: 'normal',
+                                                    padding: '5px 15px',
+                                                    minWidth: '40px'
+                                                }} 
+                                                onClick={() => handleAddToSequence({ ...video, type: 'video' })}
+                                            >
+                                                Add
+                                            </Button>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <IconButton 
+                                                sx={{ 
+                                                    '&:hover': { color: '#8C1D40' } 
+                                                }} 
+                                                onClick={() => handleView(video.videoURL)}
+                                            >
+                                                <VisibilityIcon />
+                                            </IconButton>
+                                        </TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {videos.map((video) => (
-                                        <TableRow key={video.id}>
-                                            <TableCell>{video.name}</TableCell>
-                                            <TableCell>
-                                                <Button variant="contained" sx={{ backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }} onClick={() => handleAddToSequence({ ...video, type: 'video' })}>
-                                                    Add
-                                                </Button>
-                                            </TableCell>
-                                            <TableCell>
-                                                <IconButton color="primary" sx={{ color: '#000', '&:hover': { color: '#333' } }} onClick={() => handleView(video.videoURL)}>
-                                                    <VisibilityIcon />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Box>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Box>
-                <Box sx={{ display: 'flex', overflowX: 'auto', mb: 2, p: 2, border: '1px solid #808080', borderRadius: '4px' }}>
-                    {sequence.map((item, index) => (
-                        <Paper key={index} sx={{ display: 'flex', alignItems: 'center', p: 1, mr: 2, minWidth: '200px', textAlign: 'center' }}>
-                            <IconButton size="small" onClick={() => handleMoveLeft(index)} disabled={index === 0}>
-                                <img src={ArrowBackIcon} alt="Move Left" width="20" />
-                            </IconButton>
-                            <Box sx={{ mx: 1 }}>
-                                <Typography variant="body2">{item.type === 'model' ? item.modelName : item.name}</Typography>
-                                <Typography variant="body2">#{index + 1}</Typography>
-                            </Box>
-                            <IconButton size="small" onClick={() => handleRemoveFromSequence(index)}>
-                                <DeleteIcon />
-                            </IconButton>
-                            <IconButton size="small" onClick={() => handleMoveRight(index)} disabled={index === sequence.length - 1}>
-                                <img src={ArrowForwardIcon} alt="Move Right" width="20" />
-                            </IconButton>
-                        </Paper>
-                    ))}
-                </Box>
-                <Button
-                    variant="contained"
-                    fullWidth
-                    onClick={handleSave}
-                    sx={{ backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }}
-                >
-                    Save
-                </Button>
-                <Button
-                    variant="outlined"
-                    fullWidth
-                    onClick={handleCancel}
-                    sx={{ mt: 2, borderColor: '#000', color: '#000', '&:hover': { borderColor: '#333', color: '#333' } }}
-                >
-                    Cancel
-                </Button>
-                <Button
-                    variant="contained"
-                    color="error"
-                    fullWidth
-                    onClick={handleDelete}
-                    sx={{ mt: 2, '&:hover': { backgroundColor: '#d32f2f' } }}
-                >
-                    Delete
-                </Button>
             </Box>
-        </Container>
+            
+            <Box sx={{ mb: 4, p: 2, border: '1px solid #eee', borderRadius: '4px', minHeight: '100px' }}>
+                {sequence.map((item, index) => (
+                    <Paper key={index} sx={{ display: 'inline-flex', alignItems: 'center', p: 1, mr: 2, mb: 2, minWidth: '120px', textAlign: 'center', border: '1px solid #eee', boxShadow: 'none' }}>
+                        <IconButton size="small" onClick={() => handleMoveLeft(index)} disabled={index === 0}>
+                            <img src={ArrowBackIcon} alt="Move Left" width="16" />
+                        </IconButton>
+                        <Box sx={{ mx: 1 }}>
+                            <Typography variant="body2">{item.type === 'model' ? item.modelName : item.name}</Typography>
+                            <Typography variant="caption">#{index + 1}</Typography>
+                        </Box>
+                        <IconButton size="small" onClick={() => handleRemoveFromSequence(index)}>
+                            <DeleteIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton size="small" onClick={() => handleMoveRight(index)} disabled={index === sequence.length - 1}>
+                            <img src={ArrowForwardIcon} alt="Move Right" width="16" />
+                        </IconButton>
+                    </Paper>
+                ))}
+            </Box>
+            
+            <Button
+                variant="contained"
+                fullWidth
+                onClick={handleSave}
+                sx={{ 
+                    backgroundColor: '#FFC627', 
+                    color: '#000', 
+                    '&:hover': { backgroundColor: '#e6b000' },
+                    height: '45px',
+                    textTransform: 'uppercase',
+                    fontWeight: '600',
+                    mb: 2
+                }}
+            >
+                SAVE CHANGES
+            </Button>
+            
+            <Button
+                variant="outlined"
+                fullWidth
+                onClick={handleCancel}
+                sx={{ 
+                    borderColor: '#ccc', 
+                    color: '#000', 
+                    '&:hover': { borderColor: '#000', backgroundColor: '#f5f5f5' },
+                    height: '45px',
+                    textTransform: 'uppercase',
+                    fontWeight: 'normal',
+                    mb: 2
+                }}
+            >
+                CANCEL
+            </Button>
+            
+            <Button
+                variant="contained"
+                fullWidth
+                onClick={handleDelete}
+                sx={{ 
+                    backgroundColor: '#8C1D40',
+                    color: '#fff',
+                    height: '45px',
+                    textTransform: 'uppercase',
+                    fontWeight: 'normal',
+                    '&:hover': { backgroundColor: '#6a1430' }
+                }}
+            >
+                DELETE
+            </Button>
+        </Box>
     );
 };
 

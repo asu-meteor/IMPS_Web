@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Container, Typography, Box, TextField, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Typography, Box, TextField, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Grid } from '@mui/material';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Firebase';
 import { useAuth } from '../../context/AuthContext';
@@ -53,24 +53,28 @@ const ModifyContent = () => {
     };
 
     return (
-        <Container>
-            <Box sx={{ my: 4 }}>
-                <Typography variant="h4" component="h1" gutterBottom color="black">
-                    Modify Content
-                </Typography>
-                <TextField
-                    select
-                    label="Content Type"
-                    fullWidth
-                    value={contentType}
-                    onChange={(e) => { setContentType(e.target.value); setEditContent(null); }}
-                    sx={{ mb: 2 }}
-                >
-                    <MenuItem value="Video">Video</MenuItem>
-                    <MenuItem value="Model">Model</MenuItem>
-                </TextField>
-                {!editContent ? (
-                <TableContainer component={Paper} sx={{ mt: 2 }}>
+        <Box>
+            <Typography variant="h6" component="h2" align="center" sx={{ fontWeight: 'bold', mb: 3 }}>
+                Modify Existing Media
+            </Typography>
+            
+            <TextField
+                select
+                label="Content Type"
+                fullWidth
+                value={contentType}
+                onChange={(e) => { setContentType(e.target.value); setEditContent(null); }}
+                sx={{ mb: 3 }}
+                InputProps={{
+                    sx: { height: '56px' }
+                }}
+            >
+                <MenuItem value="Video">Video</MenuItem>
+                <MenuItem value="Model">Model</MenuItem>
+            </TextField>
+            
+            {!editContent ? (
+                <TableContainer component={Paper} sx={{ mt: 2, mb: 2, border: '1px solid #eee', boxShadow: 'none' }}>
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -91,7 +95,16 @@ const ModifyContent = () => {
                                     <TableCell>{content.createdAt ? format(content.createdAt.toDate(), 'PPpp') : 'N/A'}</TableCell>
                                     <TableCell>{content.updatedAt ? format(content.updatedAt.toDate(), 'PPpp') : 'N/A'}</TableCell>
                                     <TableCell>
-                                        <Button variant="contained" sx={{ backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' }}} onClick={() => handleEditClick(content)}>
+                                        <Button 
+                                            variant="contained" 
+                                            sx={{ 
+                                                backgroundColor: '#8C1D40', 
+                                                color: '#fff',
+                                                fontWeight: 'normal',
+                                                '&:hover': { backgroundColor: '#6a1430' }
+                                            }} 
+                                            onClick={() => handleEditClick(content)}
+                                        >
                                             Edit
                                         </Button>
                                     </TableCell>
@@ -100,13 +113,12 @@ const ModifyContent = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                ) : contentType === 'Video' ? (
-                        <EditVideo content={editContent} setEditContent={setEditContent} fetchContent={fetchContent} />
-                ) : (
-                        <EditModel content={editContent} setEditContent={setEditContent} fetchContent={fetchContent} />
-                )}
-            </Box>
-        </Container>
+            ) : contentType === 'Video' ? (
+                <EditVideo content={editContent} setEditContent={setEditContent} fetchContent={fetchContent} />
+            ) : (
+                <EditModel content={editContent} setEditContent={setEditContent} fetchContent={fetchContent} />
+            )}
+        </Box>
     );
 };
 

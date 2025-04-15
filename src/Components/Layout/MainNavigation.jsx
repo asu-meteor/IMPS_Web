@@ -26,7 +26,7 @@ function MainNavigation() {
 
     return (
         <header className={classes.header}>
-            <Link to='/IMPS/Home/'>
+            <Link to='/IMPS/Home'>
                 <div className={classes.logo}>
                    IMPS AR
                 </div>
@@ -35,21 +35,21 @@ function MainNavigation() {
                 <ul>
                     <li>
                         <Link to='/IMPS/Media-Manager'>
-                            <Button variant="contained" size="medium" sx={{ color: 'black', backgroundColor: 'white', '&:hover': { color: 'white', backgroundColor: 'black', }, borderColor: 'info.main' }}>
+                            <Button variant="contained" size="medium" sx={{ color: 'white', backgroundColor: 'black', '&:hover': { color: 'black', backgroundColor: 'white' }, borderColor: 'black', fontWeight: 600 }}>
                                 Media Manager
                             </Button>
                         </Link>
                     </li>
                     <li>
                         <Link to='/IMPS/Media-Sequencer'>
-                            <Button variant="contained" size="medium" sx={{ color: 'black', backgroundColor: 'white', '&:hover': { color: 'white', backgroundColor: 'black', }, borderColor: 'info.main' }}>
+                            <Button variant="contained" size="medium" sx={{ color: 'white', backgroundColor: 'black', '&:hover': { color: 'black', backgroundColor: 'white' }, borderColor: 'black', fontWeight: 600 }}>
                                 Media Sequencer
                             </Button>
                         </Link>
                     </li>
                     {currentUser && (
                         <li>
-                            <Button onClick={handleLogout} variant="contained" size="medium" sx={{ color: 'black', backgroundColor: 'white', '&:hover': { color: 'white', backgroundColor: 'black', }, borderColor: 'info.main' }}>
+                            <Button onClick={handleLogout} variant="contained" size="medium" sx={{ color: 'white', backgroundColor: 'black', '&:hover': { color: 'black', backgroundColor: 'white' }, borderColor: 'black', fontWeight: 600 }}>
                                 Log Out
                             </Button>
                         </li>

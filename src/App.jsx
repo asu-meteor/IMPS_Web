@@ -62,7 +62,9 @@ function App() {
                 <Route
                     path="/IMPS/Visualize-Model"
                     element={
-                            <ModifySequence />
+                        <PrivateRoute>
+                            <ModifySequence sequenceID="default" />
+                        </PrivateRoute>
                     }
                 />
 

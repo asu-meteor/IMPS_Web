@@ -10,7 +10,7 @@ function Home() {
     return (
         <Container className={styles.homeContainer}>
             <Box className={styles.headerBox}>
-                <Typography variant="h2" className={styles.title}>
+                <Typography variant="h3" className={styles.title}>
                     Immersive Media Player System - AR
                 </Typography>
                 <Typography variant="h6" className={styles.subtitle}>
@@ -37,15 +37,15 @@ function Home() {
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6}>
                         <Card className={styles.card}>
-                            <CardContent>
+                            <CardContent sx={{ padding: '24px' }}>
                                 <Typography variant="h5" className={styles.cardTitle}>
                                     Media Manager
                                 </Typography>
-                                <Typography variant="h6" className={styles.cardDescription}>
+                                <Typography variant="body1" className={styles.cardDescription}>
                                     Access the Media Manager to upload new Videos or 3D Models or modify existing ones. 
                                 </Typography>
                                 <Link to='/IMPS/Media-Manager'>
-                                    <Button className={styles.cardButton} variant="contained" sx={{ color: 'white', backgroundColor: 'black', '&:hover': { color: 'black', backgroundColor: 'white', }, borderColor: 'info.main' }} >
+                                    <Button className={styles.cardButton} variant="contained" sx={{ color: 'white', backgroundColor: 'black', '&:hover': { color: 'black', backgroundColor: 'white' }, borderColor: 'black', fontWeight: 600, fontSize: '1rem', padding: '10px 20px', marginTop: '15px' }} >
                                         MEDIA MANAGER
                                     </Button>
                                 </Link>
@@ -54,15 +54,15 @@ function Home() {
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Card className={styles.card}>
-                            <CardContent>
+                            <CardContent sx={{ padding: '24px' }}>
                                 <Typography variant="h5" className={styles.cardTitle}>
                                     Media Sequencer
                                 </Typography>
-                                <Typography variant="h6" className={styles.cardDescription}>
+                                <Typography variant="body1" className={styles.cardDescription}>
                                     Use the Media Sequencer to group and order your media into sequences or lectures.
                                 </Typography>
                                 <Link to='/IMPS/Media-Sequencer'>
-                                    <Button className={styles.cardButton} variant="contained" sx={{ color: 'white', backgroundColor: 'black', '&:hover': { color: 'black', backgroundColor: 'white', }, borderColor: 'info.main' }} >
+                                    <Button className={styles.cardButton} variant="contained" sx={{ color: 'white', backgroundColor: 'black', '&:hover': { color: 'black', backgroundColor: 'white' }, borderColor: 'black', fontWeight: 600, fontSize: '1rem', padding: '10px 20px', marginTop: '15px' }} >
                                         MEDIA SEQUENCER
                                     </Button>
                                 </Link>
@@ -70,15 +70,6 @@ function Home() {
                         </Card>
                     </Grid>
                 </Grid>
-            </Box>
-
-            <Box className={styles.sectionBox}>
-                <Typography variant="h4" className={styles.sectionTitle}>
-                    Tutorial Video
-                </Typography>
-                <Typography variant="body1" className={styles.placeholderText}>
-                    [Coming Soon]
-                </Typography>
             </Box>
         </Container>
     );

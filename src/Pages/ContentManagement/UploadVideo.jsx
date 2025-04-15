@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Typography, Box, Button, TextField, LinearProgress } from '@mui/material';
+import { Typography, Box, Button, TextField, LinearProgress, Grid } from '@mui/material';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../Firebase';
@@ -136,35 +136,22 @@ const UploadVideo = () => {
     };
 
     return (
-        <Container>
-            <Box sx={{ my: 4 }}>
-                <Typography variant="h5" component="h2" color='black' gutterBottom>
-                    Upload a New Video
-                </Typography>
-                {error && <Typography color="error">{error}</Typography>}
-                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                    <TextField
-                        label="Name"
-                        name="name"
-                        fullWidth
-                        required
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        sx={{ mb: 2 }}
-                    />
-                    <TextField
-                        label="Description"
-                        name="description"
-                        fullWidth
-                        required
-                        value={formData.description}
-                        onChange={handleInputChange}
-                        sx={{ mb: 2 }}
-                    />
+        <Box component="form" onSubmit={handleSubmit}>
+            {error && <Typography color="error" sx={{ mb: 2 }}>{error}</Typography>}
+            
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
                     <Button
                         variant="contained"
                         component="label"
-                        sx={{ mb: 2, backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }}
+                        fullWidth
+                        sx={{ 
+                            mb: 3, 
+                            backgroundColor: '#8C1D40', 
+                            color: '#fff', 
+                            '&:hover': { backgroundColor: '#6a1430' },
+                            height: '45px'
+                        }}
                         disabled={isUploading}
                     >
                         Select Video
@@ -176,25 +163,88 @@ const UploadVideo = () => {
                         />
                     </Button>
                     {formData.videoFile && (
-                        <Typography variant="body1" component="p" color='black'>
+                        <Typography variant="body2" sx={{ mb: 2, fontSize: '0.8rem' }}>
                             Selected file: {formData.videoFile.name}
                         </Typography>
                     )}
+                </Grid>
+                
+                <Grid item xs={12}>
+                    <TextField
+                        label="Name*"
+                        name="name"
+                        fullWidth
+                        required
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        sx={{ mb: 2 }}
+                        InputProps={{
+                            sx: { height: '56px' }
+                        }}
+                    />
+                </Grid>
+                
+                <Grid item xs={12}>
+                    <TextField
+                        label="Description*"
+                        name="description"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        required
+                        value={formData.description}
+                        onChange={handleInputChange}
+                        sx={{ mb: 2 }}
+                    />
+                </Grid>
+                
+                <Grid item xs={12}>
                     {uploadProgress > 0 && (
                         <LinearProgress variant="determinate" value={uploadProgress} sx={{ mb: 2 }} />
                     )}
+                </Grid>
+                
+                <Grid item xs={12}>
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }}
+                        sx={{ 
+                            height: '45px',
+                            backgroundColor: '#FFC627', 
+                            color: '#000', 
+                            fontWeight: '600',
+                            textTransform: 'uppercase',
+                            '&:hover': { 
+                                backgroundColor: '#e6b000'
+                            },
+                            mb: 2
+                        }}
                         disabled={isUploading}
                     >
-                        Upload
+                        UPLOAD
                     </Button>
-                </Box>
-            </Box>
-        </Container>
+                
+                    <Button
+                        variant="outlined"
+                        fullWidth
+                        sx={{ 
+                            height: '45px',
+                            borderColor: '#ccc',
+                            color: '#000',
+                            textTransform: 'uppercase',
+                            '&:hover': { 
+                                backgroundColor: '#f5f5f5',
+                                borderColor: '#000'
+                            }
+                        }}
+                        disabled={isUploading}
+                    >
+                        Cancel
+                    </Button>
+                </Grid>
+            </Grid>
+        </Box>
     );
 };
 

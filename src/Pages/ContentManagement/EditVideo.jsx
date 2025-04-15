@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Typography, Box, Button, TextField, LinearProgress } from '@mui/material';
+import { Typography, Box, Button, TextField, LinearProgress, Grid } from '@mui/material';
 import { doc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, getDownloadURL, uploadBytesResumable, deleteObject } from 'firebase/storage';
 import { db, storage } from '../../Firebase';
@@ -146,83 +146,145 @@ const EditVideo = ({ content, setEditContent, fetchContent }) => {
     };
 
     return (
-        <Container>
-            <Box sx={{ my: 4 }}>
-                <Typography variant="h5" component="h2" gutterBottom color="black">
-                    Edit Video
-                </Typography>
-                {error && <Typography color="error">{error}</Typography>}
-                <Box component="form" onSubmit={handleSave} sx={{ mt: 1 }}>
-                    <TextField
-                        label="Name"
-                        name="name"
-                        fullWidth
-                        required
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        sx={{ mb: 2 }}
-                    />
-                    <TextField
-                        label="Description"
-                        name="description"
-                        fullWidth
-                        required
-                        value={formData.description}
-                        onChange={handleInputChange}
-                        sx={{ mb: 2 }}
-                    />
-                    <Button
-                        variant="contained"
-                        component="label"
-                        sx={{ mb: 2, backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }}
-                        disabled={isUploading}
-                    >
-                        Select New Video
-                        <input
-                            type="file"
-                            accept="video/*"
-                            hidden
-                            onChange={handleFileChange}
+        <Box>
+            <Typography variant="h6" component="h2" align="center" sx={{ mb: 3, fontWeight: 'bold' }}>
+                Edit Video
+            </Typography>
+            
+            {error && <Typography color="error" sx={{ mb: 2 }}>{error}</Typography>}
+            
+            <Box component="form" onSubmit={handleSave}>
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <TextField
+                            label="Name*"
+                            name="name"
+                            fullWidth
+                            required
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            InputProps={{
+                                sx: { height: '56px' }
+                            }}
                         />
-                    </Button>
-                    {formData.videoFile && (
-                        <Typography variant="body1" component="p" color="black">
-                            Selected file: {formData.videoFile.name}
-                        </Typography>
-                    )}
+                    </Grid>
+                    
+                    <Grid item xs={12}>
+                        <TextField
+                            label="Description*"
+                            name="description"
+                            fullWidth
+                            multiline
+                            rows={4}
+                            required
+                            value={formData.description}
+                            onChange={handleInputChange}
+                        />
+                    </Grid>
+                    
+                    <Grid item xs={12} sx={{ textAlign: 'center', mt: 1 }}>
+                        <Button
+                            variant="contained"
+                            component="label"
+                            sx={{ 
+                                backgroundColor: '#8C1D40', 
+                                color: '#fff', 
+                                '&:hover': { 
+                                    backgroundColor: '#6a1430' 
+                                },
+                                padding: '10px 20px',
+                                fontWeight: 'normal',
+                                textTransform: 'uppercase'
+                            }}
+                            disabled={isUploading}
+                        >
+                            SELECT NEW VIDEO
+                            <input
+                                type="file"
+                                accept="video/*"
+                                hidden
+                                onChange={handleFileChange}
+                            />
+                        </Button>
+                        
+                        {formData.videoFile && (
+                            <Typography variant="body2" sx={{ mt: 1, fontSize: '0.8rem' }}>
+                                Selected file: {formData.videoFile.name}
+                            </Typography>
+                        )}
+                    </Grid>
+                    
                     {uploadProgress > 0 && (
-                        <LinearProgress variant="determinate" value={uploadProgress} sx={{ mb: 2 }} />
+                        <Grid item xs={12}>
+                            <LinearProgress variant="determinate" value={uploadProgress} sx={{ mb: 2 }} />
+                        </Grid>
                     )}
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#333' } }}
-                        disabled={isUploading}
-                    >
-                        Save Changes
-                    </Button>
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="error"
-                        sx={{ mt: 1 }}
-                        onClick={handleDelete}
-                        disabled={isUploading}
-                    >
-                        Delete Video
-                    </Button>
-                    <Button
-                        fullWidth
-                        variant="outlined"
-                        sx={{ mt: 1 }}
-                        onClick={() => { fetchContent(); setEditContent(null); }}
-                    >
-                        Cancel
-                    </Button>
-                </Box>
+                    
+                    <Grid item xs={12}>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ 
+                                backgroundColor: '#FFC627', 
+                                color: '#000', 
+                                '&:hover': { 
+                                    backgroundColor: '#e6b000' 
+                                },
+                                height: '40px',
+                                fontWeight: 'normal',
+                                textTransform: 'uppercase'
+                            }}
+                            disabled={isUploading}
+                        >
+                            SAVE CHANGES
+                        </Button>
+                    </Grid>
+                    
+                    <Grid item xs={12}>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{ 
+                                backgroundColor: '#8C1D40', 
+                                color: '#fff',
+                                '&:hover': { 
+                                    backgroundColor: '#6a1430' 
+                                },
+                                height: '40px',
+                                fontWeight: 'normal',
+                                textTransform: 'uppercase'
+                            }}
+                            onClick={handleDelete}
+                            disabled={isUploading}
+                        >
+                            DELETE VIDEO
+                        </Button>
+                    </Grid>
+                    
+                    <Grid item xs={12}>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            sx={{ 
+                                color: '#000',
+                                borderColor: '#ccc',
+                                '&:hover': { 
+                                    backgroundColor: '#f5f5f5',
+                                    borderColor: '#000'
+                                },
+                                height: '40px',
+                                fontWeight: 'normal',
+                                textTransform: 'uppercase'
+                            }}
+                            onClick={() => { fetchContent(); setEditContent(null); }}
+                        >
+                            CANCEL
+                        </Button>
+                    </Grid>
+                </Grid>
             </Box>
-        </Container>
+        </Box>
     );
 };
 

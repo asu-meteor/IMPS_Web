@@ -9,6 +9,7 @@ import { AuthProvider } from './context/AuthContext';
  * The entry point of the React application.
  * It initializes the root component and wraps it with necessary providers.
  */
+
 ReactDOM.createRoot(document.getElementById('root')).render(
     < React.StrictMode >
         <BrowserRouter>
